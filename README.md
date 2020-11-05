@@ -1,6 +1,6 @@
 # godot-psx-shaders
 
-Demo can be found at (snip)
+Demo can be found at [godot-psx-shaders-demo](https://github.com/WittyCognomen/godot-psx-shaders-demo)
 
 ![Godot PSX Shaders](https://raw.githubusercontent.com/WittyCognomen/godot-psx-shaders/master/godot_psx.png)
 
