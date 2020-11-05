@@ -2,7 +2,7 @@
 
 Demo can be found at (snip)
 
-![Godot PSX Shaders](https://i.imgur.com/11s4nQs.png)
+![Godot PSX Shaders](https://raw.githubusercontent.com/WittyCognomen/godot-psx-shaders/master/godot_psx.png)
 
 ## About
 
