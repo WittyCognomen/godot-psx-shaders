@@ -15,5 +15,5 @@ void fragment() {
 	
 	color = vec4(round((color.rgb + dith) * col_depth) / col_depth, color.a);
 	
-	COLOR.rgb = color.rgb;
+	COLOR.rgba = color.rgba;
 }

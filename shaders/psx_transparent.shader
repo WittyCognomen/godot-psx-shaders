@@ -39,7 +39,7 @@ void fragment() {
 	if (affine_texture_mapping){
 		tex = texture(albedoTex, vertex_coordinates.xy / vertex_coordinates.z);
 	} else {
-		tex = texture(albedoTex, UV+((moving_uv)?uv_speed*TIME:vec2(0.0)));
+		tex = texture(albedoTex, UV);
 	}
 	
 	if (!double_sided && !FRONT_FACING){
