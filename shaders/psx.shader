@@ -1,7 +1,7 @@
 shader_type spatial; 
 render_mode skip_vertex_transform, diffuse_lambert_wrap, specular_phong, vertex_lighting, depth_draw_alpha_prepass, cull_disabled;
 
-uniform vec4 color : hint_color = vec4(1.0);
+uniform vec4 tint_color : hint_color = vec4(1.0);
 uniform sampler2D albedoTex : hint_white;
 uniform sampler2D dither : hint_white;
 uniform float specular_intensity : hint_range(0, 1);
@@ -53,14 +53,14 @@ void fragment() {
 	if (!double_sided && !FRONT_FACING){
 		ALPHA = 0.0;
 	} else {
-		ALPHA = tex.a * color.a * COLOR.a;
+		ALPHA = tex.a * tint_color.a * COLOR.a;
 	}
 
 	if (emissive){
-		EMISSION = tex.rgb * color.rgb * COLOR.rgb;
+		EMISSION = tex.rgb * tint_color.rgb * COLOR.rgb;
 		ALBEDO = vec3(0.0);
 	} else {
-		ALBEDO = tex.rgb * color.rgb * COLOR.rgb;
+		ALBEDO = tex.rgb * tint_color.rgb * COLOR.rgb;
 	}
 	SPECULAR = specular_intensity;
 	ROUGHNESS = 1.0;

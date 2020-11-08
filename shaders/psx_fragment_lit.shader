@@ -1,7 +1,7 @@
 shader_type spatial; 
 render_mode skip_vertex_transform, diffuse_lambert_wrap, specular_phong, depth_draw_alpha_prepass, cull_disabled;
 
-uniform vec4 color : hint_color = vec4(1.0);
+uniform vec4 tint_color : hint_color = vec4(1.0);
 uniform sampler2D albedoTex : hint_white;
 uniform sampler2D dither : hint_white;
 uniform float specular_intensity : hint_range(0, 1);
@@ -15,6 +15,8 @@ uniform bool affine_texture_mapping = true;
 uniform bool emissive = false;
 uniform bool moving_uv = false;
 uniform bool double_sided = false;
+
+uniform bool stippled_transparent = false;
 
 varying vec4 vertex_coordinates;
 
@@ -35,11 +37,15 @@ void vertex() {
 }
 
 void fragment() {
+	if (stippled_transparent && (mod(SCREEN_UV.x*VIEWPORT_SIZE.x+floor(mod(SCREEN_UV.y*VIEWPORT_SIZE.y, 2.0)), 2.0)<1.0)){
+		discard;
+	}
+	
 	vec4 tex;
 	if (affine_texture_mapping){
 		tex = texture(albedoTex, vertex_coordinates.xy / vertex_coordinates.z);
 	} else {
-		tex = texture(albedoTex, UV+((moving_uv)?uv_speed*TIME:vec2(0.0)));
+		tex = texture(albedoTex, UV);
 	}
 	
 	ALPHA_SCISSOR = 0.5;
@@ -47,14 +53,14 @@ void fragment() {
 	if (!double_sided && !FRONT_FACING){
 		ALPHA = 0.0;
 	} else {
-		ALPHA = tex.a * color.a * COLOR.a;
+		ALPHA = tex.a * tint_color.a * COLOR.a;
 	}
 
 	if (emissive){
-		EMISSION = tex.rgb * color.rgb * COLOR.rgb;
+		EMISSION = tex.rgb * tint_color.rgb * COLOR.rgb;
 		ALBEDO = vec3(0.0);
 	} else {
-		ALBEDO = tex.rgb * color.rgb * COLOR.rgb;
+		ALBEDO = tex.rgb * tint_color.rgb * COLOR.rgb;
 	}
 	SPECULAR = specular_intensity;
 	ROUGHNESS = 1.0;
