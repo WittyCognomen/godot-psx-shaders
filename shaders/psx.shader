@@ -17,8 +17,6 @@ uniform bool double_sided = false;
 
 uniform bool stippled_transparent = false;
 
-uniform bool world_space_vertex_resolution = false;
-
 varying vec4 vertex_coordinates;
 
 void vertex() {
