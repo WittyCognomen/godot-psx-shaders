@@ -3,7 +3,6 @@ render_mode skip_vertex_transform, diffuse_lambert_wrap, specular_phong, vertex_
 
 uniform vec4 tint_color : hint_color = vec4(1.0);
 uniform sampler2D albedoTex : hint_white;
-uniform sampler2D dither : hint_white;
 uniform float specular_intensity : hint_range(0, 1);
 uniform float vertex_resolution = 256;
 uniform float cull_distance = 9999;
@@ -18,6 +17,8 @@ uniform bool double_sided = false;
 
 uniform bool stippled_transparent = false;
 
+uniform bool world_space_vertex_resolution = false;
+
 varying vec4 vertex_coordinates;
 
 void vertex() {
@@ -26,6 +27,8 @@ void vertex() {
 	float vertex_distance = length((MODELVIEW_MATRIX * vec4(VERTEX, 1.0)));
 	
 	VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	
+	
 	NORMAL = abs(vec4(NORMAL, 1.) * MODELVIEW_MATRIX).xyz;
 	
 	float vPos_w = (PROJECTION_MATRIX * vec4(VERTEX, 1.0)).w;
@@ -62,6 +65,7 @@ void fragment() {
 	} else {
 		ALBEDO = tex.rgb * tint_color.rgb * COLOR.rgb;
 	}
+	
 	SPECULAR = specular_intensity;
 	ROUGHNESS = 1.0;
 	
